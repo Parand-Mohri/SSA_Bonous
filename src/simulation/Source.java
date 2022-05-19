@@ -38,7 +38,7 @@ public class Source implements CProcess
 		// put first event in list for initialization
 		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
 	}
-
+	//TODO: make constructure for poisson distribution
 	/**
 	*	Constructor, creates objects
 	*        Interarrival times are exponentially distributed with specified mean
@@ -81,10 +81,11 @@ public class Source implements CProcess
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Arrival at time = " + tme);
+		System.out.println("Arrival at "+  name  + "time = " + tme);
 		// give arrived product to queue
 		Product p = new Product();
 		p.stamp(tme,"Creation",name);
+		//TODO: check limits for queses here
 		queue.giveProduct(p);
 		// generate duration
 		if(meanArrTime>0)
