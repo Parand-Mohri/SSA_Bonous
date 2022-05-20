@@ -57,7 +57,7 @@ public class Simulation {
         CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
         CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
-        l.start(500); // 2000 is maximum time
+        l.start(100000); // 2000 is maximum time
         Machine[] machines = {m1, m2, m3,m4,m5,m6};
         List<Double> arrivalTime = new ArrayList<>();
         List<Double> machineTime = new ArrayList<>();
