@@ -41,10 +41,28 @@ public class Source implements CProcess
 		// put first event in list for initialization
 		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
 	}
-	//TODO: make constructure for poisson distribution
+
+//	/**
+//	 *	Constructor, creates objects
+//	 *        Interarrival times are exponentially distributed with specified mean
+//	 *	@param q	The receiver of the products
+//	 *	@param l	The eventlist that is requested to construct events
+//	 *	@param n	Name of object
+//	 *	@param m	Mean arrival time
+//	 */
+//	public Source(List<Queue> q,CEventList l,String n,double m)
+//	{
+//		list = l;
+//		queue = q;
+//		name = n;
+//		meanArrTime=m;
+//		// put first event in list for initialization
+//		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+//	}
+
 	/**
 	 *	Constructor, creates objects
-	 *        Interarrival times are exponentially distributed with specified mean
+	 *        Interarrival times are poisson distributed with specified mean
 	 *	@param q	The receiver of the products
 	 *	@param l	The eventlist that is requested to construct events
 	 *	@param n	Name of object
@@ -57,7 +75,7 @@ public class Source implements CProcess
 		name = n;
 		meanArrTime=m;
 		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+		list.add(this,0,drawRandomPoisson(meanArrTime)); //target,type,time
 	}
 
 	/**
@@ -151,5 +169,21 @@ public class Source implements CProcess
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
 		return res;
+	}
+
+	public static double drawRandomPoisson(double mean)
+	{
+		// draw a [0,1] uniform distributed number
+		double u = Math.random();
+
+		double l = Math.exp(-mean);
+		int k = 0;
+		double p = 1.0;
+
+		while (p > l) {
+			p = p * u;
+			k++;
+		}
+		return k - 1;
 	}
 }
