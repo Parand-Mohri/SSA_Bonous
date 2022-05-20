@@ -30,10 +30,18 @@ public class Simulation {
 	Queue q3= new Queue();
 	Queue q4 = new Queue();
 	Queue q5 = new Queue();
-	List<Queue> q6 = new ArrayList<>();
+//	Queue q6 = new Queue();
+	List<Queue> cashRegisterQueues = new ArrayList<>();
+	cashRegisterQueues.add(q1);
+	cashRegisterQueues.add(q2);
+	cashRegisterQueues.add(q3);
+	cashRegisterQueues.add(q4);
+	cashRegisterQueues.add(q5);
+//	List<Queue> q6 = new ArrayList<>();
+
 	// A source
-	Source s1 = new Source(q1,l,"customers for cash register");
-	Source s2 = new Source(q2,l,"customers for service desk");
+	Source s1 = new Source(cashRegisterQueues,l,"customers for cash register");
+//	Source s2 = new Source(q6,l,"customers for service desk");
 
 	// A sink
 	Sink si = new Sink("Sink 1");
@@ -43,9 +51,9 @@ public class Simulation {
 	CashRegister m3= new CashRegister(q3,si,l,"cash registers 3");
 	CashRegister m4 = new CashRegister(q4,si,l,"cash registers 4");
 	CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5");
-	CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(q6,si,l,"cash register/service desk 6");
+//	CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(q6,si,l,"cash register/service desk 6");
 	// start the eventlist
-	l.start(2000); // 2000 is maximum time
+	l.start(10000); // 2000 is maximum time
     }
     
 }

@@ -48,6 +48,11 @@ public class Queue implements ProductAcceptor
 			return false; // queue request
 		}
 	}
+
+
+	public boolean askLimit(){
+		return requests.size() < 4;
+	}
 	
 	/**
 	*	Offer a product to the queue

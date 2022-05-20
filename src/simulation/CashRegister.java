@@ -15,7 +15,6 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	private final CEventList eventlist;
 	/** Queue from which the machine has to take products */
 	private Queue queue;
-	private List<Queue> queue2;
 	/** Sink to dump products */
 	private ProductAcceptor sink;
 	/** Status of the machine (b=busy, i=idle) */
@@ -42,17 +41,6 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	{
 		status='i';
 		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=30;
-		queue.askProduct(this);
-	}
-
-	public CashRegister(List<Queue> q, ProductAcceptor s, CEventList e, String n)
-	{
-		status='i';
-		queue2=q;
 		sink=s;
 		eventlist=e;
 		name=n;

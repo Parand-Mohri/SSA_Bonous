@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.List;
+
 /**
  *	A source of products
  *	This class implements CProcess so that it can execute events.
@@ -12,7 +14,7 @@ public class Source implements CProcess
 	/** Eventlist that will be requested to construct events */
 	private CEventList list;
 	/** Queue that buffers products for the machine */
-	private ProductAcceptor queue;
+	private List<Queue> queue;
 	/** Name of the source */
 	private String name;
 	/** Mean interarrival time */
@@ -29,7 +31,7 @@ public class Source implements CProcess
 	*	@param l	The eventlist that is requested to construct events
 	*	@param n	Name of object
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n)
+	public Source(List<Queue> q,CEventList l,String n)
 	{
 		list = l;
 		queue = q;
@@ -47,7 +49,7 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param m	Mean arrival time
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double m)
+	public Source(List<Queue> q,CEventList l,String n,double m)
 	{
 		list = l;
 		queue = q;
@@ -65,7 +67,7 @@ public class Source implements CProcess
 	*	@param n	Name of object
 	*	@param ia	interarrival times
 	*/
-	public Source(ProductAcceptor q,CEventList l,String n,double[] ia)
+	public Source(List<Queue> q,CEventList l,String n,double[] ia)
 	{
 		list = l;
 		queue = q;
@@ -86,7 +88,13 @@ public class Source implements CProcess
 		Product p = new Product();
 		p.stamp(tme,"Creation",name);
 		//TODO: check limits for queses here
-		queue.giveProduct(p);
+		for(Queue q: queue){
+			if(q.askLimit()){
+				q.giveProduct(p);
+				break;
+			}
+		}
+
 		// generate duration
 		if(meanArrTime>0)
 		{

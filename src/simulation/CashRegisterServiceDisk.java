@@ -9,7 +9,6 @@ public class CashRegisterServiceDisk implements CProcess,ProductAcceptor,Machine
     private final CEventList eventlist;
     /** Queue from which the machine has to take products */
     private List<Queue> queue;
-//    private List<Queue> queue2;
     /** Sink to dump products */
     private ProductAcceptor sink;
     /** Status of the machine (b=busy, i=idle) */
