@@ -27,6 +27,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	private double[] processingTimes;
 	/** Processing time iterator */
 	private int procCnt;
+	private double sd;
 
 	//TODO: make constructor for normal distribution for service time
 	/**
@@ -37,16 +38,16 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	*	@param e	Eventlist that will manage events
 	*	@param n	The name of the machine
 	*/
-	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n)
-	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=30;
-		queue.askProduct(this);
-	}
+//	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n)
+//	{
+//		status='i';
+//		queue=q;
+//		sink=s;
+//		eventlist=e;
+//		name=n;
+//		meanProcTime=30;
+//		queue.askProduct(this);
+//	}
 
 	/**
 	*	Constructor
@@ -57,7 +58,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	*	@param n	The name of the machine
 	*        @param m	Mean processing time
 	*/
-	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n, double m)
+	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n, double m, double sd)
 	{
 		status='i';
 		queue=q;
@@ -65,6 +66,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		eventlist=e;
 		name=n;
 		meanProcTime=m;
+		this.sd = sd;
 		queue.askProduct(this);
 	}
 	
@@ -143,7 +145,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		// generate duration
 		if(meanProcTime>0)
 		{
-			double duration = drawRandomExponential(meanProcTime);
+			double duration = drawNormalDistributions(meanProcTime, sd);
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
 			eventlist.add(this,0,tme+duration); //target,type,time
@@ -172,6 +174,28 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		double u = Math.random();
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
+		return res;
+	}
+
+
+
+
+	//generating normally distributed variated by box and muller method,
+	//it generates pairs of STANDARD NORMAL DIST variates, we only need one
+
+	public static double drawNormalDistributions(double mean, double std){
+		//uniform dist (0;1)
+		double u1 = Math.random() ;
+		double u2 = Math.random();
+
+		//generating two vars standard normal distributed
+		double x1 = Math.sqrt(-2 * Math.log(u1));
+		x1 = x1 * Math.cos(2*Math.PI* u2);
+		// not needed second variate
+
+		//cast to normal dist(mean, std)
+		double res = (std * x1) + mean;
+
 		return res;
 	}
 }

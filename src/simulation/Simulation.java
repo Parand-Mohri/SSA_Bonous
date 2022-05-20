@@ -43,7 +43,7 @@ public class Simulation {
         cashRegisterANDServiceDeskQueues.add(q7);
 
         // A source
-        Source s1 = new Source(cashRegisterQueues,l,"customers for cash register ");
+        Source s1 = new Source(cashRegisterQueues,l,"customers for cash register ", 60);
         //TODO: make a source just for 1 queue
 //	Source s2 = new Source(cashRegisterANDServiceDeskQueues,l,"customers for service desk");
         cashRegisterANDServiceDeskQueues.add(q6);
@@ -51,12 +51,12 @@ public class Simulation {
         // A sink
         Sink si = new Sink("Sink 1");
         // A machine
-        CashRegister m1 = new CashRegister(q1,si,l,"cash registers 1");
-        CashRegister m2 = new CashRegister(q2,si,l,"cash registers 2");
-        CashRegister m3= new CashRegister(q3,si,l,"cash registers 3");
-        CashRegister m4 = new CashRegister(q4,si,l,"cash registers 4");
-        CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5");
-        CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6");
+        CashRegister m1 = new CashRegister(q1,si,l,"cash registers 1",2.6 * 60, 1.1*60 );
+        CashRegister m2 = new CashRegister(q2,si,l,"cash registers 2",2.6 * 60, 1.1*60);
+        CashRegister m3= new CashRegister(q3,si,l,"cash registers 3",2.6 * 60, 1.1*60);
+        CashRegister m4 = new CashRegister(q4,si,l,"cash registers 4",2.6 * 60, 1.1*60);
+        CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
+        CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
         l.start(2000); // 2000 is maximum time
     }

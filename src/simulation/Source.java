@@ -32,15 +32,15 @@ public class Source implements CProcess
 	 *	@param l	The eventlist that is requested to construct events
 	 *	@param n	Name of object
 	 */
-	public Source(List<Queue> q,CEventList l,String n)
-	{
-		list = l;
-		queue = q;
-		name = n;
-		meanArrTime=33;
-		// put first event in list for initialization
-		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
-	}
+//	public Source(List<Queue> q,CEventList l,String n)
+//	{
+//		list = l;
+//		queue = q;
+//		name = n;
+//		meanArrTime=33;
+//		// put first event in list for initialization
+//		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+//	}
 
 //	/**
 //	 *	Constructor, creates objects
@@ -186,4 +186,5 @@ public class Source implements CProcess
 		}
 		return k - 1;
 	}
+
 }
