@@ -59,20 +59,22 @@ public class Simulation {
         // start the eventlist
         l.start(500); // 2000 is maximum time
         Machine[] machines = {m1, m2, m3,m4,m5,m6};
-        List<Double> arrivaleTime = new ArrayList<>();
+        List<Double> arrivalTime = new ArrayList<>();
         List<Double> machineTime = new ArrayList<>();
         List<Double> leavingTime = new ArrayList<>();
         for(Machine m: machines){
             for(Product p: m.getPeople()){
-                arrivaleTime.add(p.getTimes().get(0));
+                arrivalTime.add(p.getTimes().get(0));
                 machineTime.add(p.getTimes().get(1));
                 leavingTime.add(p.getTimes().get(2));
             }
         }
-        System.out.println("arival times:" + arrivaleTime);
+        System.out.println("arival times:" + arrivalTime);
         System.out.println("machine times:" + machineTime);
         System.out.println("leaving times:" + leavingTime);
 
+        CSVwriter csv = new CSVwriter();
+        csv.exportData(arrivalTime, machineTime, leavingTime);
     }
 }
 
