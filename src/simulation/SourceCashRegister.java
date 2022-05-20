@@ -67,7 +67,9 @@ public class SourceCashRegister implements CProcess {
             }
         }
 
-        Queue smallest = available.get(0);
+        //we start comparing with the sum of both queues of the service desk
+        int smallest = available.get(available.size()-1).getQueueSize() + s2.getQueue().getQueueSize() ;
+        Queue smallestQue =  available.get(available.size()-1);
         for (Queue q : available) {
             if (smallest > q.getQueueSize()) {
                 smallest = q.getQueueSize();
