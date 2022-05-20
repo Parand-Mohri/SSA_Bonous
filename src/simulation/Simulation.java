@@ -13,7 +13,7 @@ public class Simulation {
 
     public CEventList list;
     public Queue queue;
-    public Source source;
+    public SourceCashRegister source;
     public Sink sink;
     public CashRegister mach;
 
@@ -39,13 +39,13 @@ public class Simulation {
         cashRegisterQueues.add(q4);
         cashRegisterQueues.add(q5);
         cashRegisterQueues.add(q6);
+
+
+        //sources
+        SourceCashRegister s1 = new SourceCashRegister(cashRegisterQueues,l,"customers for cash register ", 60);
+	    SourceServiceDesk s2 = new SourceServiceDesk(q7,l,"customers for service desk", 5*60);
         List<Queue> cashRegisterANDServiceDeskQueues = new ArrayList<>();
         cashRegisterANDServiceDeskQueues.add(q7);
-
-        // A source
-        Source s1 = new Source(cashRegisterQueues,l,"customers for cash register ", 60);
-        //TODO: make a source just for 1 queue
-//	Source s2 = new Source(cashRegisterANDServiceDeskQueues,l,"customers for service desk");
         cashRegisterANDServiceDeskQueues.add(q6);
 
         // A sink

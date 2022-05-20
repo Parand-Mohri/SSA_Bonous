@@ -29,25 +29,6 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	private int procCnt;
 	private double sd;
 
-	//TODO: make constructor for normal distribution for service time
-	/**
-	*	Constructor
-	*        Service times are exponentially distributed with mean 30
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*/
-//	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n)
-//	{
-//		status='i';
-//		queue=q;
-//		sink=s;
-//		eventlist=e;
-//		name=n;
-//		meanProcTime=30;
-//		queue.askProduct(this);
-//	}
 
 	/**
 	*	Constructor
@@ -67,28 +48,6 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		name=n;
 		meanProcTime=m;
 		this.sd = sd;
-		queue.askProduct(this);
-	}
-	
-	/**
-	*	Constructor
-	*        Service times are pre-specified
-	*	@param q	Queue from which the machine has to take products
-	*	@param s	Where to send the completed products
-	*	@param e	Eventlist that will manage events
-	*	@param n	The name of the machine
-	*        @param st	service times
-	*/
-	public CashRegister(Queue q, ProductAcceptor s, CEventList e, String n, double[] st)
-	{
-		status='i';
-		queue=q;
-		sink=s;
-		eventlist=e;
-		name=n;
-		meanProcTime=-1;
-		processingTimes=st;
-		procCnt=0;
 		queue.askProduct(this);
 	}
 
