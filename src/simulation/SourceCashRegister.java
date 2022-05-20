@@ -34,8 +34,9 @@ public class SourceCashRegister implements CProcess {
     private int interArrCnt;
     private ProductAcceptor sink;
     private List<Double> arrivalTime = new ArrayList<>();
-    private List<Double> machineTime = new ArrayList<>();
     public List<Double> getArrivalTime(){return arrivalTime;}
+
+    SourceServiceDesk s2;
 
 
     /**
@@ -47,12 +48,13 @@ public class SourceCashRegister implements CProcess {
      * @param n Name of object
      * @param m Mean arrival time
      */
-    public SourceCashRegister(List<Queue> q, ProductAcceptor sink, CEventList l, String n, double m) {
+    public SourceCashRegister(List<Queue> q,SourceServiceDesk s2, ProductAcceptor sink, CEventList l, String n, double m) {
         list = l;
         queue = q;
         name = n;
         meanArrTime = m;
         this.sink = sink;
+        this.s2= s2;
         // put first event in list for initialization
         list.add(this, 0, drawRandomPoisson(meanArrTime)); //target,type,time
     }
@@ -67,12 +69,15 @@ public class SourceCashRegister implements CProcess {
 
         Queue smallest = available.get(0);
         for (Queue q : available) {
-            if (smallest.getQueueSize() > q.getQueueSize()) {
-                smallest = q;
+            if (smallest > q.getQueueSize()) {
+                smallest = q.getQueueSize();
+                smallestQue = q;
             }
         }
-        if (smallest.askLimit()) {
-            return smallest;
+
+
+        if (smallestQue.askLimit()) {
+            return smallestQue;
         } else {
             for (Queue q : queue) {
                 if (!q.getActive()) {
