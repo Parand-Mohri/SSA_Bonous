@@ -102,29 +102,13 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	private void startProduction()
 	{
 		// generate duration
-		if(meanProcTime>0)
-		{
 			double duration = drawNormalDistributions(meanProcTime, sd);
 			// Create a new event in the eventlist
 			double tme = eventlist.getTime();
 			eventlist.add(this,0,tme+duration); //target,type,time
 			// set status to busy
 			status='b';
-		}
-		else
-		{
-			if(processingTimes.length>procCnt)
-			{
-				eventlist.add(this,0,eventlist.getTime()+processingTimes[procCnt]); //target,type,time
-				// set status to busy
-				status='b';
-				procCnt++;
-			}
-			else
-			{
-				eventlist.stop();
-			}
-		}
+
 	}
 
 	public static double drawRandomExponential(double mean)
