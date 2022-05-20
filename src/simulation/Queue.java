@@ -51,7 +51,7 @@ public class Queue implements ProductAcceptor
 
 
 	public boolean askLimit(){
-		return requests.size() < 4;
+		return row.size() < 4;
 	}
 	
 	/**
