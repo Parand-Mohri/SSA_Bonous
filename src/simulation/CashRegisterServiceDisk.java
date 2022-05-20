@@ -138,7 +138,7 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
             x1 = x1 * Math.cos(2 * Math.PI * u2);
             // not needed second variate
 
-            //cast to normal dist(mean, std)
+            //cast to N(mean, std)
             res = (std * x1) + mean;
         }
         return res;

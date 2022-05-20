@@ -20,6 +20,8 @@ public class SourceServiceDesk implements CProcess {
      * Queue that buffers products for the machine
      */
     private Queue queue;
+
+    public Queue getQueue(){return queue;}
     /**
      * Name of the source
      */
