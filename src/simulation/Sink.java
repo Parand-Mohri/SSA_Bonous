@@ -52,7 +52,12 @@ public class Sink implements ProductAcceptor
 		}
 		return true;
 	}
-	
+
+//	@Override
+//	public boolean askLimit() {
+//		return true;
+//	}
+
 	public int[] getNumbers()
 	{
 		numbers.trimToSize();
