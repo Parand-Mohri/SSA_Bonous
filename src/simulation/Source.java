@@ -124,4 +124,24 @@ public class Source implements CProcess
 		double res = -mean*Math.log(u);
 		return res;
 	}
+
+
+	//generating normally distributed variated by box and muller method,
+	//it generates pairs of STANDARD NORMAL DIST variates, we only need one
+
+	public static double drawNormalDistributions(double mean, double std){
+		//uniform dist (0;1)
+		double u1 = Math.random() ;
+		double u2 = Math.random();
+
+		//generating two vars standard normal distributed
+		double x1 = Math.sqrt(-2 * Math.log(u1));
+		x1 = x1 * Math.cos(2*Math.PI* u2);
+		// not needed second variate
+
+		//cast to normal dist(mean, std)
+		double res = (std * x1) + mean;
+
+		return res;
+	}
 }
