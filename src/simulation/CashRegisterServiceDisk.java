@@ -38,9 +38,14 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
     private int procCnt;
     private double sd;
     private List<Product> people;
-    public List<Product> getPeople() {
-        return people;
-    }
+//    private List<Product> peopleT;
+//    public List<Product> getPeopleR() {
+//        return peopleR;
+//    }
+//    public List<Product> getPeopleT() {
+//        return peopleT;
+//    }
+    public List<Queue> getQueue(){return queue;}
 
 
     /**
@@ -61,10 +66,12 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         name = n;
         meanProcTime = m;
         this.sd = sd;
-        if (!queue.get(0).askProduct(this)) {
-            queue.get(1).askProduct(this);
+        //given priority to service customers since the beginning
+        if (!queue.get(1).askProduct(this)) {
+            queue.get(0).askProduct(this);
         }
         people = new ArrayList<>();
+//        peopleR = new ArrayList<>();
     }
 
 
@@ -81,6 +88,12 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         product.stamp(tme, "Production complete", name);
         sink.giveProduct(product);
         people.add(product);
+//        if(product.type == 'T'){
+//            peopleT.add(product);
+//        }else{
+//            peopleR.add(product);
+//        }
+
         product = null;
         // set machine status to idle
         status = 'i';
@@ -112,6 +125,11 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         }
         // Flag that the product has been rejected
         else return false;
+    }
+
+    @Override
+    public List<Product> getPeople() {
+        return people;
     }
 
     /**

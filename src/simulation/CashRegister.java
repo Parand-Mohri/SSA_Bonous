@@ -79,7 +79,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		// Ask the queue for products
 		queue.askProduct(this);
 	}
-	
+
 	/**
 	*	Let the machine accept a product and let it start handling it
 	*	@param p	The product that is offered

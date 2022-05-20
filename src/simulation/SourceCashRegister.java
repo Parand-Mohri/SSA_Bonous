@@ -33,8 +33,9 @@ public class SourceCashRegister implements CProcess {
      */
     private int interArrCnt;
     private ProductAcceptor sink;
-    private List<Double> arrivalTime = new ArrayList<>();
-    public List<Double> getArrivalTime(){return arrivalTime;}
+//    private List<Double> arrivalTime = new ArrayList<>();
+//    private List<Double> arrivalTime = new ArrayList<>();
+
 
     SourceServiceDesk s2;
 
@@ -61,11 +62,15 @@ public class SourceCashRegister implements CProcess {
 
     public Queue getNextQueue() {
         List<Queue> available = new ArrayList<>();
+//        List<Integer> l = new ArrayList<>();
+
         for (Queue q : queue) {
+//            l.add(q.getQueueSize());
             if (q.getActive()) {
                 available.add(q);
             }
         }
+
 
         //we start comparing with the sum of both queues of the service desk
         int smallest = available.get(available.size()-1).getQueueSize() + s2.getQueue().getQueueSize() ;
@@ -76,7 +81,8 @@ public class SourceCashRegister implements CProcess {
                 smallestQue = q;
             }
         }
-
+//        l.add(s2.getQueue().getQueueSize());
+//        queueLength.add(l);
 
         if (smallestQue.askLimit()) {
             return smallestQue;
@@ -95,13 +101,14 @@ public class SourceCashRegister implements CProcess {
     @Override
     public void execute(int type, double tme) {
         // show arrival
-//        System.out.println("Arrival at " + name + "time = " + tme);
-        arrivalTime.add(tme);
+        System.out.println("Arrival at " + name + "time = " + tme);
+//        arrivalTime.add(tme);
         // give arrived product to queue
         Product p = new Product();
         p.stamp(tme, "Creation", name);
         Queue next = getNextQueue();
         if (next == null) {
+            //TODO:product check for people who go to sink here
             sink.giveProduct(p);
             System.out.println("the guy went to sink");
         } else {

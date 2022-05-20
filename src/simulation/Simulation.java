@@ -4,6 +4,9 @@
  *	@version %I%, %G%
  */
 
+//TODO: change csv files
+//TODO: queue length
+
 package simulation;
 
 import java.util.ArrayList;
@@ -57,11 +60,14 @@ public class Simulation {
         CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
         CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
-        l.start(100000); // 2000 is maximum time
+        l.start(2000000); // 2000 is maximum time
         Machine[] machines = {m1, m2, m3,m4,m5,m6};
-        List<Double> arrivalTime = new ArrayList<>();
-        List<Double> machineTime = new ArrayList<>();
-        List<Double> leavingTime = new ArrayList<>();
+        List<Double> arrivalTimeReg = new ArrayList<>();
+        List<Double> machineTimeReg = new ArrayList<>();
+        List<Double> leavingTimeReg = new ArrayList<>();
+        List<Double> arrivalTimeT = new ArrayList<>();
+        List<Double> machineTimeT = new ArrayList<>();
+        List<Double> leavingTimeT = new ArrayList<>();
         for(Machine m: machines){
             for(Product p: m.getPeople()){
                 arrivalTime.add(p.getTimes().get(0));
@@ -69,9 +75,14 @@ public class Simulation {
                 leavingTime.add(p.getTimes().get(2));
             }
         }
-        System.out.println("arival times:" + arrivalTime);
-        System.out.println("machine times:" + machineTime);
-        System.out.println("leaving times:" + leavingTime);
+
+        System.out.println("arival times:" + arrivalTimeReg.size());
+        System.out.println("machine times:" + machineTimeReg);
+        System.out.println("leaving times:" + leavingTimeReg);
+        System.out.println("arival times:" + arrivalTimeT.size());
+        System.out.println("machine times:" + machineTimeT);
+        System.out.println("leaving times:" + leavingTimeT);
+
 
         CSVwriter csv = new CSVwriter();
         csv.exportData(arrivalTime, machineTime, leavingTime);

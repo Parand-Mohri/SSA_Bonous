@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.List;
+
 /**
  *	Blueprint for processes
  *	Classes that implement this interface can process events

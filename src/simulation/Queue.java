@@ -14,7 +14,7 @@ public class Queue implements ProductAcceptor
 	private ArrayList<Product> row;
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
-	private List<Double> machineTime;
+//	private List<Double> machineTime;
 
 	private int number;
 	private boolean active;
