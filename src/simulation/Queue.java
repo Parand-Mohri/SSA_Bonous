@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *	Queue that stores products until they can be handled on a machine machine
@@ -13,6 +14,7 @@ public class Queue implements ProductAcceptor
 	private ArrayList<Product> row;
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
+	private List<Double> machineTime;
 
 	private int number;
 	private boolean active;
@@ -21,9 +23,9 @@ public class Queue implements ProductAcceptor
 	public int getNumber(){return number;}
 	public int getQueueSize(){return row.size();}
 	/**
-	*	Initializes the queue and introduces a dummy machine
-	*	the machine has to be specified later
-	*/
+	 *	Initializes the queue and introduces a dummy machine
+	 *	the machine has to be specified later
+	 */
 	public Queue(int number, boolean active)
 	{
 		this.number = number;
@@ -31,11 +33,11 @@ public class Queue implements ProductAcceptor
 		requests = new ArrayList<>();
 		this.active = active;
 	}
-	
+
 	/**
-	*	Asks a queue to give a product to a machine
-	*	True is returned if a product could be delivered; false if the request is queued
-	*/
+	 *	Asks a queue to give a product to a machine
+	 *	True is returned if a product could be delivered; false if the request is queued
+	 */
 	public boolean askProduct(Machine machine)
 	{
 		// This is only possible with a non-empty queue
@@ -52,7 +54,6 @@ public class Queue implements ProductAcceptor
 		}
 		else
 		{
-			//TODO: if no one in the queue activity need to be false; dont know if its working;
 			if(number!= 1 && number != 2 && number != 6 && number!= 7){
 				setActive(false);
 			}
@@ -66,11 +67,11 @@ public class Queue implements ProductAcceptor
 	public boolean askLimit(){
 		return row.size() < 4;
 	}
-	
+
 	/**
-	*	Offer a product to the queue
-	*	It is investigated whether a machine wants the product, otherwise it is stored
-	*/
+	 *	Offer a product to the queue
+	 *	It is investigated whether a machine wants the product, otherwise it is stored
+	 */
 	public boolean giveProduct(Product p)
 	{
 		// Check if the machine accepts it

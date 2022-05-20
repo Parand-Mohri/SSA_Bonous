@@ -2,141 +2,102 @@ package simulation;
 
 import java.util.List;
 
-public class CashRegisterServiceDisk implements CProcess,ProductAcceptor,Machine {
-    /** Product that is being handled  */
+public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machine {
+    /**
+     * Product that is being handled
+     */
     private Product product;
-    /** Eventlist that will manage events */
+    /**
+     * Eventlist that will manage events
+     */
     private final CEventList eventlist;
-    /** Queue from which the machine has to take products */
+    /**
+     * Queue from which the machine has to take products
+     */
     private List<Queue> queue;
-    /** Sink to dump products */
+    /**
+     * Sink to dump products
+     */
     private ProductAcceptor sink;
-    /** Status of the machine (b=busy, i=idle) */
+    /**
+     * Status of the machine (b=busy, i=idle)
+     */
     private char status;
-    /** Machine name */
+    /**
+     * Machine name
+     */
     private final String name;
-    /** Mean processing time */
+    /**
+     * Mean processing time
+     */
     private double meanProcTime;
-    /** Processing times (in case pre-specified) */
-    private double[] processingTimes;
-    /** Processing time iterator */
+    /**
+     * Processing time iterator
+     */
     private int procCnt;
+    private double sd;
 
 
     /**
-     *	Constructor
-     *        Service times are exponentially distributed with mean 30
-     *	@param q	Queue from which the machine has to take products
-     *	@param s	Where to send the completed products
-     *	@param e	Eventlist that will manage events
-     *	@param n	The name of the machine
+     * Constructor
+     * Service times are exponentially distributed with specified mean
+     *
+     * @param q Queue from which the machine has to take products
+     * @param s Where to send the completed products
+     * @param e Eventlist that will manage events
+     * @param n The name of the machine
+     * @param m Mean processing time
      */
-//    public CashRegisterServiceDisk(Queue q, ProductAcceptor s, CEventList e, String n)
-//    {
-//        status='i';
-//        queue=q;
-//        sink=s;
-//        eventlist=e;
-//        name=n;
-//        meanProcTime=30;
-//        queue.askProduct(this);
-//    }
-
-    public CashRegisterServiceDisk(List<Queue> q, ProductAcceptor s, CEventList e, String n)
-    {
-        status='i';
-        queue=q;
-        sink=s;
-        eventlist=e;
-        name=n;
-        meanProcTime=30;
-        for(Queue qu: queue) {
-            qu.askProduct(this);
+    public CashRegisterServiceDisk(List<Queue> q, ProductAcceptor s, CEventList e, String n, double m, double sd) {
+        status = 'i';
+        queue = q;
+        sink = s;
+        eventlist = e;
+        name = n;
+        meanProcTime = m;
+        this.sd = sd;
+        if (!queue.get(0).askProduct(this)) {
+            queue.get(1).askProduct(this);
         }
     }
 
-    /**
-     *	Constructor
-     *        Service times are exponentially distributed with specified mean
-     *	@param q	Queue from which the machine has to take products
-     *	@param s	Where to send the completed products
-     *	@param e	Eventlist that will manage events
-     *	@param n	The name of the machine
-     *        @param m	Mean processing time
-     */
-//    public CashRegisterServiceDisk(Queue q, ProductAcceptor s, CEventList e, String n, double m)
-//    {
-//        status='i';
-//        queue=q;
-//        sink=s;
-//        eventlist=e;
-//        name=n;
-//        meanProcTime=m;
-//        queue.askProduct(this);
-//    }
 
     /**
-     *	Constructor
-     *        Service times are pre-specified
-     *	@param q	Queue from which the machine has to take products
-     *	@param s	Where to send the completed products
-     *	@param e	Eventlist that will manage events
-     *	@param n	The name of the machine
-     *        @param st	service times
+     * Method to have this object execute an event
+     *
+     * @param type The type of the event that has to be executed
+     * @param tme  The current time
      */
-    public CashRegisterServiceDisk(List<Queue> q, ProductAcceptor s, CEventList e, String n, double[] st)
-    {
-        status='i';
-        queue=q;
-        sink=s;
-        eventlist=e;
-        name=n;
-        meanProcTime=-1;
-        processingTimes=st;
-        procCnt=0;
-        for(Queue qu: queue) {
-            qu.askProduct(this);
-        }
-    }
-
-    /**
-     *	Method to have this object execute an event
-     *	@param type	The type of the event that has to be executed
-     *	@param tme	The current time
-     */
-    public void execute(int type, double tme)
-    {
+    public void execute(int type, double tme) {
         // show arrival
-        System.out.println("Product finished at  "+ name +" time = " + tme);
+        System.out.println("Product finished at  " + name + " time = " + tme);
         // Remove product from system
-        product.stamp(tme,"Production complete",name);
+        product.stamp(tme, "Production complete", name);
         sink.giveProduct(product);
-        product=null;
+        product = null;
         // set machine status to idle
-        status='i';
+        status = 'i';
         // Ask the queue for products
         //TODO: give priority to the service desk queue
-        for(Queue qu: queue) {
-            qu.askProduct(this);
-            break;
+        if (!queue.get(0).askProduct(this)) {
+            queue.get(1).askProduct(this);
         }
     }
 
     /**
-     *	Let the machine accept a product and let it start handling it
-     *	@param p	The product that is offered
-     *	@return	true if the product is accepted and started, false in all other cases
+     * Let the machine accept a product and let it start handling it
+     *
+     * @param p The product that is offered
+     * @return true if the product is accepted and started, false in all other cases
      */
     @Override
-    public boolean giveProduct(Product p)
-    {
+    public boolean giveProduct(Product p) {
         // Only accept something if the machine is idle
-        if(status=='i')
-        {
+        if (status == 'i') {
             // accept the product
-            product=p;
+            product = p;
             // mark starting time
-            product.stamp(eventlist.getTime(),"Production started",name);
+            product.stamp(eventlist.getTime(), "Production started", name);
             // start production
             startProduction();
             // Flag that the product has arrived
@@ -147,44 +108,39 @@ public class CashRegisterServiceDisk implements CProcess,ProductAcceptor,Machine
     }
 
     /**
-     *	Starting routine for the production
-     *	Start the handling of the current product with an exponentionally distributed processingtime with average 30
-     *	This time is placed in the eventlist
+     * Starting routine for the production
+     * Start the handling of the current product with an exponentionally distributed processingtime with average 30
+     * This time is placed in the eventlist
      */
-    private void startProduction()
-    {
+    private void startProduction() {
         // generate duration
-        if(meanProcTime>0)
-        {
-            double duration = drawRandomExponential(meanProcTime);
-            // Create a new event in the eventlist
-            double tme = eventlist.getTime();
-            eventlist.add(this,0,tme+duration); //target,type,time
-            // set status to busy
-            status='b';
-        }
-        else
-        {
-            if(processingTimes.length>procCnt)
-            {
-                eventlist.add(this,0,eventlist.getTime()+processingTimes[procCnt]); //target,type,time
-                // set status to busy
-                status='b';
-                procCnt++;
-            }
-            else
-            {
-                eventlist.stop();
-            }
-        }
+        double duration = drawNormalDistributions(meanProcTime, sd);
+        // Create a new event in the eventlist
+        double tme = eventlist.getTime();
+        eventlist.add(this, 0, tme + duration); //target,type,time
+        // set status to busy
+        status = 'b';
+
     }
 
-    public static double drawRandomExponential(double mean)
-    {
-        // draw a [0,1] uniform distributed number
-        double u = Math.random();
-        // Convert it into a exponentially distributed random variate with mean 33
-        double res = -mean*Math.log(u);
+    //generating normally distributed variated by box and muller method,
+    //it generates pairs of STANDARD NORMAL DIST variates, we only need one
+
+    public static double drawNormalDistributions(double mean, double std) {
+        //uniform dist (0;1)
+        double res = 0;
+        while (res < 1) {
+            double u1 = Math.random();
+            double u2 = Math.random();
+
+            //generating two vars standard normal distributed
+            double x1 = Math.sqrt(-2 * Math.log(u1));
+            x1 = x1 * Math.cos(2 * Math.PI * u2);
+            // not needed second variate
+
+            //cast to N(mean, std)
+            res = (std * x1) + mean;
+        }
         return res;
     }
 }
