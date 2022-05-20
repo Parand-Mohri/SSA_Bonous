@@ -1,5 +1,6 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,12 +26,12 @@ public class Source implements CProcess
 	private int interArrCnt;
 
 	/**
-	*	Constructor, creates objects
-	*        Interarrival times are exponentially distributed with mean 33
-	*	@param q	The receiver of the products
-	*	@param l	The eventlist that is requested to construct events
-	*	@param n	Name of object
-	*/
+	 *	Constructor, creates objects
+	 *        Interarrival times are exponentially distributed with mean 33
+	 *	@param q	The receiver of the products
+	 *	@param l	The eventlist that is requested to construct events
+	 *	@param n	Name of object
+	 */
 	public Source(List<Queue> q,CEventList l,String n)
 	{
 		list = l;
@@ -40,33 +41,33 @@ public class Source implements CProcess
 		// put first event in list for initialization
 		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
 	}
-
-//	/**
-//	*	Constructor, creates objects
-//	*        Interarrival times are exponentially distributed with specified mean
-//	*	@param q	The receiver of the products
-//	*	@param l	The eventlist that is requested to construct events
-//	*	@param n	Name of object
-//	*	@param expM	Mean arrival time
-//	*/
-//	public Source(List<Queue> q,CEventList l,String n,double expM)
-//	{
-//		list = l;
-//		queue = q;
-//		name = n;
-//		meanArrTime=expM;
-//		// put first event in list for initialization
-//		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
-//	}
+	//TODO: make constructure for poisson distribution
+	/**
+	 *	Constructor, creates objects
+	 *        Interarrival times are exponentially distributed with specified mean
+	 *	@param q	The receiver of the products
+	 *	@param l	The eventlist that is requested to construct events
+	 *	@param n	Name of object
+	 *	@param m	Mean arrival time
+	 */
+	public Source(List<Queue> q,CEventList l,String n,double m)
+	{
+		list = l;
+		queue = q;
+		name = n;
+		meanArrTime=m;
+		// put first event in list for initialization
+		list.add(this,0,drawRandomExponential(meanArrTime)); //target,type,time
+	}
 
 	/**
-	*	Constructor, creates objects
-	*        Interarrival times are prespecified
-	*	@param q	The receiver of the products
-	*	@param l	The eventlist that is requested to construct events
-	*	@param n	Name of object
-	*	@param ia	interarrival times
-	*/
+	 *	Constructor, creates objects
+	 *        Interarrival times are prespecified
+	 *	@param q	The receiver of the products
+	 *	@param l	The eventlist that is requested to construct events
+	 *	@param n	Name of object
+	 *	@param ia	interarrival times
+	 */
 	public Source(List<Queue> q,CEventList l,String n,double[] ia)
 	{
 		list = l;
@@ -79,25 +80,37 @@ public class Source implements CProcess
 		list.add(this,0,interarrivalTimes[0]); //target,type,time
 	}
 
-	/**
-	 *	Constructor, creates objects
-	 *        Interarrival times are poisson distributed with specified mean
-	 *	@param q	The receiver of the products
-	 *	@param l	The eventlist that is requested to construct events
-	 *	@param n	Name of object
-	 *	@param poisM	interarrival times
-	 */
-	public Source(List<Queue> q, CEventList l, String n, double poisM)
-	{
-		list = l;
-		queue = q;
-		name = n;
-		meanArrTime=poisM;
-		// put first event in list for initialization
-		list.add(this, 0, drawRandomPoisson(meanArrTime)); //target,type,time
+	public Queue getNextQueue(){
+		List<Queue> available = new ArrayList<>();
+		for(Queue q: queue){
+			if(q.getActive()){
+				available.add(q);
+			}
+		}
+
+		Queue smallest = available.get(0);
+		for(Queue q: available){
+			if(smallest.getQueueSize() > q.getQueueSize()){
+				smallest = q;
+			}
+		}
+		if(smallest.askLimit()){
+			return smallest;
+		}else{
+			for(Queue q: queue){
+				if(!q.getActive()){
+					q.setActive(true);
+					return q;
+				}
+			}
+		}
+		//TODO: if we got here there is no queue available
+		return null;
+
 	}
-	
-        @Override
+
+
+	@Override
 	public void execute(int type, double tme)
 	{
 		// show arrival
@@ -105,13 +118,10 @@ public class Source implements CProcess
 		// give arrived product to queue
 		Product p = new Product();
 		p.stamp(tme,"Creation",name);
-		//TODO: check limits for queses here
-		for(Queue q: queue){
-			if(q.askLimit()){
-				q.giveProduct(p);
-				break;
-			}
-		}
+		Queue next = getNextQueue();
+		next.giveProduct(p);
+		System.out.println("product to Queue =  " + next.getNumber());
+
 
 		// generate duration
 		if(meanArrTime>0)
@@ -133,49 +143,13 @@ public class Source implements CProcess
 			}
 		}
 	}
-	
+
 	public static double drawRandomExponential(double mean)
 	{
 		// draw a [0,1] uniform distributed number
 		double u = Math.random();
 		// Convert it into a exponentially distributed random variate with mean 33
 		double res = -mean*Math.log(u);
-		return res;
-	}
-
-	public static double drawRandomPoisson(double mean)
-	{
-		// draw a [0,1] uniform distributed number
-		double u = Math.random();
-
-		double l = Math.exp(-mean);
-		int k = 0;
-		double p = 1.0;
-
-		while (p > l) {
-			p = p * u;
-			k++;
-		}
-		return k - 1;
-	}
-
-
-	//generating normally distributed variated by box and muller method,
-	//it generates pairs of STANDARD NORMAL DIST variates, we only need one
-
-	public static double drawNormalDistributions(double mean, double std){
-		//uniform dist (0;1)
-		double u1 = Math.random() ;
-		double u2 = Math.random();
-
-		//generating two vars standard normal distributed
-		double x1 = Math.sqrt(-2 * Math.log(u1));
-		x1 = x1 * Math.cos(2*Math.PI* u2);
-		// not needed second variate
-
-		//cast to normal dist(mean, std)
-		double res = (std * x1) + mean;
-
 		return res;
 	}
 }
