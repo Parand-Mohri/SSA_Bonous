@@ -17,7 +17,6 @@ public class Simulation {
     public Sink sink;
     public CashRegister mach;
 
-
     /**
      * @param args the command line arguments
      */
@@ -62,5 +61,5 @@ public class Simulation {
         System.out.println(m1.getPeople().get(6).getTimes());
 
     }
-
 }
+
