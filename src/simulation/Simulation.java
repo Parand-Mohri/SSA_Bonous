@@ -40,7 +40,7 @@ public class Simulation {
 //	List<Queue> q6 = new ArrayList<>();
 
 	// A source
-	Source s1 = new Source(cashRegisterQueues,l,"customers for cash register", 5);
+	Source s1 = new Source(cashRegisterQueues,l,"customers for cash register", 60);
 //	Source s2 = new Source(q6,l,"customers for service desk");
 
 	// A sink
