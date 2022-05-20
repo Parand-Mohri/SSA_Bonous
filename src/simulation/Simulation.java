@@ -70,9 +70,16 @@ public class Simulation {
         List<Double> leavingTimeT = new ArrayList<>();
         for(Machine m: machines){
             for(Product p: m.getPeople()){
-                arrivalTime.add(p.getTimes().get(0));
-                machineTime.add(p.getTimes().get(1));
-                leavingTime.add(p.getTimes().get(2));
+                if(p.type == 'R'){
+                    arrivalTimeReg.add(p.getTimes().get(0));
+                    machineTimeReg.add(p.getTimes().get(1));
+                    leavingTimeReg.add(p.getTimes().get(2));
+                } else if (p.type == 'T'){
+                    arrivalTimeT.add(p.getTimes().get(0));
+                    machineTimeT.add(p.getTimes().get(1));
+                    leavingTimeT.add(p.getTimes().get(2));
+                }
+
             }
         }
 

@@ -104,7 +104,7 @@ public class SourceCashRegister implements CProcess {
         System.out.println("Arrival at " + name + "time = " + tme);
 //        arrivalTime.add(tme);
         // give arrived product to queue
-        Product p = new Product();
+        Product p = new Product('R');
         p.stamp(tme, "Creation", name);
         Queue next = getNextQueue();
         if (next == null) {

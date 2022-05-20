@@ -12,17 +12,19 @@ class Product
 	private ArrayList<Double> times;
 	private ArrayList<String> events;
 	private ArrayList<String> stations;
+	public char type;
 	
 	/** 
 	*	Constructor for the product
 	*	Mark the time at which it is created
 	*	@param create The current time
 	*/
-	public Product()
+	public Product(char t)
 	{
 		times = new ArrayList<>();
 		events = new ArrayList<>();
 		stations = new ArrayList<>();
+		this.type = t;
 	}
 	
 	

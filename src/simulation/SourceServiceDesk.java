@@ -62,7 +62,7 @@ public class SourceServiceDesk implements CProcess {
 //        System.out.println("Arrival at " + name + "time = " + tme);
         arrivalTime.add(tme);
         // give arrived product to queue
-        Product p = new Product();
+        Product p = new Product('T');
         p.stamp(tme, "Creation", name);
         queue.giveProduct(p);
         System.out.println("product to Queue =  " + queue.getNumber());

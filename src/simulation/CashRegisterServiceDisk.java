@@ -98,9 +98,9 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         // set machine status to idle
         status = 'i';
         // Ask the queue for products
-        //TODO: give priority to the service desk queue
-        if (!queue.get(0).askProduct(this)) {
-            queue.get(1).askProduct(this);
+        // give priority to the service desk queue
+        if (!queue.get(1).askProduct(this)) {
+            queue.get(0).askProduct(this);
         }
     }
 
