@@ -13,15 +13,23 @@ public class Queue implements ProductAcceptor
 	private ArrayList<Product> row;
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
-	
+
+	private int number;
+	private boolean active;
+	public boolean getActive(){return active;}
+	public void setActive(boolean x){ active = x;}
+	public int getNumber(){return number;}
+	public int getQueueSize(){return row.size();}
 	/**
 	*	Initializes the queue and introduces a dummy machine
 	*	the machine has to be specified later
 	*/
-	public Queue()
+	public Queue(int number, boolean active)
 	{
+		this.number = number;
 		row = new ArrayList<>();
 		requests = new ArrayList<>();
+		this.active = active;
 	}
 	
 	/**
@@ -44,6 +52,11 @@ public class Queue implements ProductAcceptor
 		}
 		else
 		{
+			//TODO: if no one in the queue activity need to be false; dont know if its working;
+			if(number!= 1 && number != 2 && number != 6 && number!= 7){
+				setActive(false);
+			}
+
 			requests.add(machine);
 			return false; // queue request
 		}

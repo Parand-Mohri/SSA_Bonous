@@ -1,5 +1,6 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,7 +79,37 @@ public class Source implements CProcess
 		// put first event in list for initialization
 		list.add(this,0,interarrivalTimes[0]); //target,type,time
 	}
-	
+
+	public Queue getNextQueue(){
+		List<Queue> available = new ArrayList<>();
+		for(Queue q: queue){
+			if(q.getActive()){
+				available.add(q);
+			}
+		}
+
+		Queue smallest = available.get(0);
+		for(Queue q: available){
+			if(smallest.getQueueSize() > q.getQueueSize()){
+				smallest = q;
+			}
+		}
+		if(smallest.askLimit()){
+			return smallest;
+		}else{
+			for(Queue q: queue){
+				if(!q.getActive()){
+					q.setActive(true);
+					return q;
+				}
+			}
+		}
+		//TODO: if we got here there is no queue available
+		return null;
+
+	}
+
+
         @Override
 	public void execute(int type, double tme)
 	{
@@ -87,13 +118,10 @@ public class Source implements CProcess
 		// give arrived product to queue
 		Product p = new Product();
 		p.stamp(tme,"Creation",name);
-		//TODO: check limits for queses here
-		for(Queue q: queue){
-			if(q.askLimit()){
-				q.giveProduct(p);
-				break;
-			}
-		}
+		Queue next = getNextQueue();
+		next.giveProduct(p);
+		System.out.println("product to Queue =  " + next.getNumber());
+
 
 		// generate duration
 		if(meanArrTime>0)
