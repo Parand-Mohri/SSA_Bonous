@@ -39,6 +39,7 @@ public class Simulation {
         cashRegisterQueues.add(q4);
         cashRegisterQueues.add(q5);
         cashRegisterQueues.add(q6);
+
         Sink si = new Sink("Sink 1");
 
         //sources
@@ -47,8 +48,6 @@ public class Simulation {
         List<Queue> cashRegisterANDServiceDeskQueues = new ArrayList<>();
         cashRegisterANDServiceDeskQueues.add(q7);
         cashRegisterANDServiceDeskQueues.add(q6);
-
-        // A sink
 
         // A machine
         CashRegister m1 = new CashRegister(q1,si,l,"cash registers 1",2.6 * 60, 1.1*60 );

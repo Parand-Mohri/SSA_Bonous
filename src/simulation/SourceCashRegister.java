@@ -82,7 +82,6 @@ public class SourceCashRegister implements CProcess {
             }
         }
         return null;
-
     }
 
 
