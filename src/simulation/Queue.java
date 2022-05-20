@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *	Queue that stores products until they can be handled on a machine machine
@@ -13,6 +14,7 @@ public class Queue implements ProductAcceptor
 	private ArrayList<Product> row;
 	/** Requests from machine that will be handling the products */
 	private ArrayList<Machine> requests;
+	private List<Double> machineTime;
 
 	private int number;
 	private boolean active;
@@ -52,7 +54,6 @@ public class Queue implements ProductAcceptor
 		}
 		else
 		{
-			//TODO: if no one in the queue activity need to be false; dont know if its working;
 			if(number!= 1 && number != 2 && number != 6 && number!= 7){
 				setActive(false);
 			}

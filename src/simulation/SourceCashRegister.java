@@ -33,6 +33,10 @@ public class SourceCashRegister implements CProcess {
      */
     private int interArrCnt;
     private ProductAcceptor sink;
+    private List<Double> arrivalTime = new ArrayList<>();
+    private List<Double> machineTime = new ArrayList<>();
+    public List<Double> getArrivalTime(){return arrivalTime;}
+
 
     /**
      * Constructor, creates objects
@@ -85,7 +89,8 @@ public class SourceCashRegister implements CProcess {
     @Override
     public void execute(int type, double tme) {
         // show arrival
-        System.out.println("Arrival at " + name + "time = " + tme);
+//        System.out.println("Arrival at " + name + "time = " + tme);
+        arrivalTime.add(tme);
         // give arrived product to queue
         Product p = new Product();
         p.stamp(tme, "Creation", name);

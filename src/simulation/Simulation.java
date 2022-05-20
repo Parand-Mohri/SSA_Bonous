@@ -42,7 +42,7 @@ public class Simulation {
         Sink si = new Sink("Sink 1");
 
         //sources
-        SourceCashRegister s1 = new SourceCashRegister(cashRegisterQueues,si,l,"customers for cash register ", 2);
+        SourceCashRegister s1 = new SourceCashRegister(cashRegisterQueues,si,l,"customers for cash register ", 60);
 	    SourceServiceDesk s2 = new SourceServiceDesk(q7,l,"customers for service desk", 5*60);
         List<Queue> cashRegisterANDServiceDeskQueues = new ArrayList<>();
         cashRegisterANDServiceDeskQueues.add(q7);
@@ -58,7 +58,9 @@ public class Simulation {
         CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
         CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
-        l.start(10000); // 2000 is maximum time
+        l.start(3000); // 2000 is maximum time
+        System.out.println(m1.getPeople().get(6).getTimes());
+
     }
 
 }

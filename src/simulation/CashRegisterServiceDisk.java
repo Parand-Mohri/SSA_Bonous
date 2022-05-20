@@ -128,7 +128,6 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
 
     public static double drawNormalDistributions(double mean, double std) {
         //uniform dist (0;1)
-        //TODO: service time 1 sec at least -->Clau check this
         double res = 0;
         while (res < 1) {
             double u1 = Math.random();

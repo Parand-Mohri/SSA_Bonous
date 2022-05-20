@@ -1,5 +1,6 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,13 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	/** Processing time iterator */
 	private int procCnt;
 	private double sd;
+	private List<Double> machineTime;
+	    public List<Double> getMachineTime(){return machineTime;}
+	private List<Product> people;
 
+	public List<Product> getPeople() {
+		return people;
+	}
 
 	/**
 	*	Constructor
@@ -49,6 +56,8 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		meanProcTime=m;
 		this.sd = sd;
 		queue.askProduct(this);
+		machineTime = new ArrayList<>();
+		people = new ArrayList<>();
 	}
 
 	/**
@@ -63,6 +72,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		// Remove product from system
 		product.stamp(tme,"Production complete",name);
 		sink.giveProduct(product);
+		people.add(product);
 		product=null;
 		// set machine status to idle
 		status='i';
@@ -85,6 +95,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 			product=p;
 			// mark starting time
 			product.stamp(eventlist.getTime(),"Production started",name);
+			machineTime.add(eventlist.getTime());
 			// start production
 			startProduction();
 			// Flag that the product has arrived

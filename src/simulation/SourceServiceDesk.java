@@ -32,6 +32,8 @@ public class SourceServiceDesk implements CProcess {
      * Interarrival time iterator
      */
     private int interArrCnt;
+    private List<Double> arrivalTime = new ArrayList<>();
+    public List<Double> getArrivalTime(){return arrivalTime;}
 
     /**
      * Constructor, creates objects
@@ -55,7 +57,8 @@ public class SourceServiceDesk implements CProcess {
     @Override
     public void execute(int type, double tme) {
         // show arrival
-        System.out.println("Arrival at " + name + "time = " + tme);
+//        System.out.println("Arrival at " + name + "time = " + tme);
+        arrivalTime.add(tme);
         // give arrived product to queue
         Product p = new Product();
         p.stamp(tme, "Creation", name);
