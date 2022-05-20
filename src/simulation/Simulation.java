@@ -85,7 +85,10 @@ public class Simulation {
 
 
         CSVwriter csv = new CSVwriter();
-        csv.exportData(arrivalTime, machineTime, leavingTime);
+        csv.exportData(arrivalTimeReg, machineTimeReg, leavingTimeReg);
+        csv.exportData(arrivalTimeT, machineTimeT, leavingTimeT);
+
+        //csv.exportQueueData();
     }
 }
 
