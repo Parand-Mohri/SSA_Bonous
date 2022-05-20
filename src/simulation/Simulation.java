@@ -57,12 +57,21 @@ public class Simulation {
         CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
         CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
-        l.start(3000); // 2000 is maximum time
-        System.out.println(m1.getPeople().get(0).getTimes());
-        System.out.println(m1.getPeople().get(1).getTimes());
-        System.out.println(m1.getPeople().get(2).getTimes());
-        System.out.println(m1.getPeople().get(3).getTimes());
-        System.out.println(m1.getPeople().get(4).getTimes());
+        l.start(500); // 2000 is maximum time
+        Machine[] machines = {m1, m2, m3,m4,m5,m6};
+        List<Double> arrivaleTime = new ArrayList<>();
+        List<Double> machineTime = new ArrayList<>();
+        List<Double> leavingTime = new ArrayList<>();
+        for(Machine m: machines){
+            for(Product p: m.getPeople()){
+                arrivaleTime.add(p.getTimes().get(0));
+                machineTime.add(p.getTimes().get(1));
+                leavingTime.add(p.getTimes().get(2));
+            }
+        }
+        System.out.println("arival times:" + arrivaleTime);
+        System.out.println("machine times:" + machineTime);
+        System.out.println("leaving times:" + leavingTime);
 
     }
 }

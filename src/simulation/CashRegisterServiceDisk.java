@@ -1,5 +1,6 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machine {
@@ -36,6 +37,10 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
      */
     private int procCnt;
     private double sd;
+    private List<Product> people;
+    public List<Product> getPeople() {
+        return people;
+    }
 
 
     /**
@@ -59,6 +64,7 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         if (!queue.get(0).askProduct(this)) {
             queue.get(1).askProduct(this);
         }
+        people = new ArrayList<>();
     }
 
 
@@ -74,6 +80,7 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         // Remove product from system
         product.stamp(tme, "Production complete", name);
         sink.giveProduct(product);
+        people.add(product);
         product = null;
         // set machine status to idle
         status = 'i';
