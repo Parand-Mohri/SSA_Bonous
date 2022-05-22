@@ -60,7 +60,7 @@ public class Simulation {
         CashRegister m5 = new CashRegister(q5,si,l,"cash registers 5",2.6 * 60, 1.1*60);
         CashRegisterServiceDisk m6 = new CashRegisterServiceDisk(cashRegisterANDServiceDeskQueues,si,l,"cash register/service desk 6", 4.1*60, 1.1*60);
         // start the eventlist
-        l.start(2000000); // 2000 is maximum time
+        l.start(200000); // 2000 is maximum time
         Machine[] machines = {m1, m2, m3,m4,m5,m6};
         List<Double> arrivalTimeReg = new ArrayList<>();
         List<Double> machineTimeReg = new ArrayList<>();
@@ -92,8 +92,8 @@ public class Simulation {
 
 
         CSVwriter csv = new CSVwriter();
-        csv.exportData(arrivalTimeReg, machineTimeReg, leavingTimeReg);
-        csv.exportData(arrivalTimeT, machineTimeT, leavingTimeT);
+        csv.exportData(arrivalTimeReg, machineTimeReg, leavingTimeReg, "dataReg.csv");
+        csv.exportData(arrivalTimeT, machineTimeT, leavingTimeT, "dataT.csv");
 
         //csv.exportQueueData();
     }
