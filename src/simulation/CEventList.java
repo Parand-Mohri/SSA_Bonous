@@ -1,6 +1,7 @@
 package simulation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *	Event processing mechanism
@@ -15,6 +16,9 @@ public class CEventList implements CProcess
 	private double currentTime;
 	/** List of events that have to be executed */
 	private final ArrayList<CEvent> events;
+	public ArrayList<CEvent> getEvents(){
+		return events;
+	}
 	/** Stop flag */
 	private boolean stopFlag;
 
