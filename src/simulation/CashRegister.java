@@ -131,9 +131,6 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 		return res;
 	}
 
-
-
-
 	//generating normally distributed variated by box and muller method,
 	//it generates pairs of STANDARD NORMAL DIST variates, we only need one
 

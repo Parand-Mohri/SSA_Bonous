@@ -6,10 +6,10 @@ import java.util.List;
 
 public class CSVwriter {
 
-    public void exportData(List<Double> arrivalTimes, List<Double> machineTimes, List<Double> departures) {
+    public void exportData(List<Double> arrivalTimes, List<Double> machineTimes, List<Double> departures, String fileName) {
 
         try{
-            BufferedWriter br = new BufferedWriter(new FileWriter("data.csv"));
+            BufferedWriter br = new BufferedWriter(new FileWriter(fileName));
             StringBuilder sb = new StringBuilder();
 
             sb.append("Customers");
@@ -41,7 +41,7 @@ public class CSVwriter {
         }
     }
 
-    public void exportQueueData(List<Double> queue1, List<Double> queue2, List<Double> queue3, List<Double> queue4, List<Double> queue5, List<Double> queue6, List<Double> queue7) {
+    public void exportQueueData(List<Integer> queue1, List<Integer> queue2, List<Integer> queue3, List<Integer> queue4, List<Integer> queue5, List<Integer> queue6, List<Integer> queue7) {
 
         try{
             BufferedWriter br = new BufferedWriter(new FileWriter("queueData.csv"));
