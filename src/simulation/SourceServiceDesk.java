@@ -69,11 +69,11 @@ public class SourceServiceDesk implements CProcess {
 
         if ( queue.askLimit()){
             queue.giveProduct(p);
-            System.out.println("product to Queue =  " + queue.getNumber());
+//            System.out.println("product to Queue =  " + queue.getNumber());
 
         }else{
             sink.giveProduct(p);
-            System.out.println("the guy went to sink");
+//            System.out.println("the guy went to sink");
         }
 
 

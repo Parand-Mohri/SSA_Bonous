@@ -68,7 +68,7 @@ public class CashRegister implements CProcess,ProductAcceptor,Machine
 	public void execute(int type, double tme)
 	{
 		// show arrival
-		System.out.println("Product finished at  "+ name +" time = " + tme);
+//		System.out.println("Product finished at  "+ name +" time = " + tme);
 		// Remove product from system
 		product.stamp(tme,"Production complete",name);
 		sink.giveProduct(product);

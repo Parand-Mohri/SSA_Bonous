@@ -104,7 +104,7 @@ public class SourceCashRegister implements CProcess {
     @Override
     public void execute(int type, double tme) {
         // show arrival
-        System.out.println("Arrival at " + name + "time = " + tme);
+//        System.out.println("Arrival at " + name + "time = " + tme);
 //        arrivalTime.add(tme);
         // give arrived product to queue
         Product p = new Product('R');
@@ -112,10 +112,10 @@ public class SourceCashRegister implements CProcess {
         Queue next = getNextQueue();
         if (next == null) {
             sink.giveProduct(p);
-            System.out.println("the guy went to sink");
+//            System.out.println("the guy went to sink");
         } else {
             next.giveProduct(p);
-            System.out.println("product to Queue =  " + next.getNumber() + "  people on queue = " + next.getQueueSize());
+//            System.out.println("product to Queue =  " + next.getNumber() + "  people on queue = " + next.getQueueSize());
         }
 
 
