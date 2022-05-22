@@ -26,12 +26,14 @@ end
 %%
 delayR =  R.ArrivalsAtMachine - R.Arrivals;
 delayT=  T.ArrivalsAtMachine - T.Arrivals;
+delayO = [delayR; delayT];
 
 %%z score for 95 confidence interval = 1.96
 
 % https://www.google.com/search?q=confidence+interval+formula&oq=confidence+interval+&aqs=chrome.2.69i57j0i67l4j69i60l3.5344j0j7&sourceid=chrome&ie=UTF-8
 CI95R = [mean(delayR) - 1.96*(std(delayR)./sqrt(numel(delayR))), mean(delayR) + 1.96*(std(delayR)./sqrt(numel(delayR)))];
 CI95T = [mean(delayT) - 1.96*(std(delayT)./sqrt(numel(delayT))), mean(delayT) + 1.96*(std(delayT)./sqrt(numel(delayT)))];
+CI95O = [mean(delayO) - 1.96*(std(delayO)./sqrt(numel(delayO))), mean(delayO) + 1.96*(std(delayO)./sqrt(numel(delayO)))];
 
 figure 
 histogram(delayR, 15)
@@ -51,6 +53,17 @@ plot(mean(delayT)*[1,1],ylim*1.05,'r-','LineWidth',2);
 plot(CI95T(1)*[1,1],ylim*1.05,'g-','LineWidth',2);
 plot(CI95T(2)*[1,1],ylim*1.05,'g-','LineWidth',2);
 title("delay service cust")
+
+
+
+
+qR = [Q.Queue1;Q.Queue2;Q.Queue3;Q.Queue4;Q.Queue5;Q.Queue6];
+qT = Q.Queue7;
+
+CI95R = [mean(qR) - 1.96*(std(qR)./sqrt(numel(qR))), mean(qR) + 1.96*(std(qR)./sqrt(numel(qR)))];
+CI95T = [mean(qT) - 1.96*(std(qT)./sqrt(numel(qT))), mean(qT) + 1.96*(std(qT)./sqrt(numel(qT)))];
+
+
 
 
 % figure 
