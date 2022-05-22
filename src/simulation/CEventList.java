@@ -100,6 +100,7 @@ public class CEventList implements CProcess
 			events.get(0).execute();
 			// Remove the event from the list
 			events.remove(0);
+			
 		}
 	}
 
