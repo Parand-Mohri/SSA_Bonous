@@ -1,13 +1,61 @@
+
 M = readtable( "data.csv" );
 R = readtable("dataReg.csv");
 T = readtable("dataT.csv");
-x = M.ArrivalsAtMachine - M.Arrivals; 
-% mean(x)
-SEM = std(x)/sqrt(length(x));               % Standard Error
-ts = tinv([0.05  0.95],length(x)-1);      % T-Score
-CI = mean(x) + ts*SEM ; 
-delay =M.Departures - M.ArrivalsAtMachine;
-delayReg = 
+
+meanRegArrivals = mean(R.Arrivals);
+%%checking if arrivals are poisson distributed 
+sortedRArrivales = sort(R.Arrivals);
+g =  zeros(1, length(sortedRArrivales));
+
 figure 
-hist(delay )
-title("delay")
+histogram(g)
+hold on
+x = (0:1:650);
+p = poisspdf(x, 60 );
+plot(p)
+hold off
+title("regular arrivals")
+
+for i = 1  : length(sortedRArrivales)-1
+    g(i) = sortedRArrivales(i+1) - sortedRArrivales(i);
+end 
+
+
+
+%%
+delayReg =  R.ArrivalsAtMachine - R.Arrivals;
+delayT=  T.ArrivalsAtMachine - T.Arrivals;
+
+
+figure 
+histogram(delayT)
+title("delay service cust")
+figure 
+
+histogram(delayReg)
+title("delay regular cust ")
+
+
+
+y = exppdf(x,meanREg);
+
+
+
+
+
+
+% https://www.google.com/search?q=confidence+interval+formula&oq=confidence+interval+&aqs=chrome.2.69i57j0i67l4j69i60l3.5344j0j7&sourceid=chrome&ie=UTF-8
+% 95% confidence level value : 1.96
+sortedT = sort(T.Arrivals);
+figure 
+histogram(sortedT)
+title("arrival for ta")
+CI95 = [mean(x) - 1.96*(std(x)./sqrt(numel(x))), mean(x) + 1.96*(std(x)./sqrt(numel(x)))];
+
+figure
+histogram(g)
+plot(mean(g)*[1,1],ylim*1.05,'r-','LineWidth',2);
+ plot(CI95(1)*[1,1],ylim*1.05,'g-','LineWidth',2);
+ plot(CI95(2)*[1,1],ylim*1.05,'g-','LineWidth',2);
+
