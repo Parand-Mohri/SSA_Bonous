@@ -38,15 +38,6 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
     private int procCnt;
     private double sd;
     private List<Product> people;
-//    private List<Product> peopleT;
-//    public List<Product> getPeopleR() {
-//        return peopleR;
-//    }
-//    public List<Product> getPeopleT() {
-//        return peopleT;
-//    }
-    public List<Queue> getQueue(){return queue;}
-
 
     /**
      * Constructor
@@ -88,11 +79,6 @@ public class CashRegisterServiceDisk implements CProcess, ProductAcceptor, Machi
         product.stamp(tme, "Production complete", name);
         sink.giveProduct(product);
         people.add(product);
-//        if(product.type == 'T'){
-//            peopleT.add(product);
-//        }else{
-//            peopleR.add(product);
-//        }
 
         product = null;
         // set machine status to idle

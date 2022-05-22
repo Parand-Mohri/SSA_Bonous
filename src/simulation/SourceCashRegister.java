@@ -33,6 +33,8 @@ public class SourceCashRegister implements CProcess {
      */
     private int interArrCnt;
     private ProductAcceptor sink;
+    private List<List<Integer>> queueLength;
+    public  List<List<Integer>> getQueueLength(){return queueLength;}
 //    private List<Double> arrivalTime = new ArrayList<>();
 //    private List<Double> arrivalTime = new ArrayList<>();
 
@@ -56,16 +58,17 @@ public class SourceCashRegister implements CProcess {
         meanArrTime = m;
         this.sink = sink;
         this.s2= s2;
+        queueLength = new ArrayList<>();
         // put first event in list for initialization
         list.add(this, 0, drawRandomPoisson(meanArrTime)); //target,type,time
     }
 
     public Queue getNextQueue() {
         List<Queue> available = new ArrayList<>();
-//        List<Integer> l = new ArrayList<>();
+        List<Integer> l = new ArrayList<>();
 
         for (Queue q : queue) {
-//            l.add(q.getQueueSize());
+            l.add(q.getQueueSize());
             if (q.getActive()) {
                 available.add(q);
             }
@@ -81,8 +84,8 @@ public class SourceCashRegister implements CProcess {
                 smallestQue = q;
             }
         }
-//        l.add(s2.getQueue().getQueueSize());
-//        queueLength.add(l);
+        l.add(s2.getQueue().getQueueSize());
+        queueLength.add(l);
 
         if (smallestQue.askLimit()) {
             return smallestQue;
@@ -108,7 +111,6 @@ public class SourceCashRegister implements CProcess {
         p.stamp(tme, "Creation", name);
         Queue next = getNextQueue();
         if (next == null) {
-            //TODO:product check for people who go to sink here
             sink.giveProduct(p);
             System.out.println("the guy went to sink");
         } else {

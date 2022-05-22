@@ -45,7 +45,7 @@ public class Simulation {
         Sink si = new Sink("Sink 1");
 
         //sources
-        SourceServiceDesk s2 = new SourceServiceDesk(q7,l,"customers for service desk", 5*60);
+        SourceServiceDesk s2 = new SourceServiceDesk(q7,l,si,"customers for service desk", 5*60);
         SourceCashRegister s1 = new SourceCashRegister(cashRegisterQueues,s2,si, l,"customers for cash register ", 60);
 
         List<Queue> cashRegisterANDServiceDeskQueues = new ArrayList<>();
@@ -68,6 +68,27 @@ public class Simulation {
         List<Double> arrivalTimeT = new ArrayList<>();
         List<Double> machineTimeT = new ArrayList<>();
         List<Double> leavingTimeT = new ArrayList<>();
+
+        List<Integer> ql1 = new ArrayList<>();
+        List<Integer> ql2 = new ArrayList<>();
+        List<Integer> ql3 = new ArrayList<>();
+        List<Integer> ql4 = new ArrayList<>();
+        List<Integer> ql5 = new ArrayList<>();
+        List<Integer> ql6 = new ArrayList<>();
+        List<Integer> ql7 = new ArrayList<>();
+        List<List<Integer>> queueLength = s1.getQueueLength();
+        for(List li: queueLength){
+            ql1.add((Integer) li.get(0));
+            ql2.add((Integer) li.get(1));
+            ql3.add((Integer) li.get(2));
+            ql4.add((Integer) li.get(3));
+            ql5.add((Integer) li.get(4));
+            ql6.add((Integer) li.get(5));
+            ql7.add((Integer) li.get(6));
+        }
+        System.out.println(queueLength.size());
+
+
         for(Machine m: machines){
             for(Product p: m.getPeople()){
                 if(p.type == 'R'){
@@ -82,20 +103,19 @@ public class Simulation {
 
             }
         }
-
-        System.out.println("arival times:" + arrivalTimeReg.size());
-        System.out.println("machine times:" + machineTimeReg);
-        System.out.println("leaving times:" + leavingTimeReg);
-        System.out.println("arival times:" + arrivalTimeT.size());
-        System.out.println("machine times:" + machineTimeT);
-        System.out.println("leaving times:" + leavingTimeT);
+//
+//        System.out.println(ql1);
+//        System.out.println("machine times:" + machineTimeReg);
+//        System.out.println("leaving times:" + leavingTimeReg);
+//        System.out.println("arival times:" + arrivalTimeT.size());
+//        System.out.println("machine times:" + machineTimeT);
+//        System.out.println("leaving times:" + leavingTimeT);
 
 
         CSVwriter csv = new CSVwriter();
         csv.exportData(arrivalTimeReg, machineTimeReg, leavingTimeReg, "dataReg.csv");
         csv.exportData(arrivalTimeT, machineTimeT, leavingTimeT, "dataT.csv");
-
-        //csv.exportQueueData();
+        csv.exportQueueData(ql1,ql2,ql3,ql4,ql5,ql6,ql7);
     }
 }
 

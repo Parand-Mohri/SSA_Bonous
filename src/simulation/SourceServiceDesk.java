@@ -26,6 +26,7 @@ public class SourceServiceDesk implements CProcess {
      * Name of the source
      */
     private String name;
+    private ProductAcceptor sink;
     /**
      * Mean interarrival time
      */
@@ -46,11 +47,12 @@ public class SourceServiceDesk implements CProcess {
      * @param n Name of object
      * @param m Mean arrival time
      */
-    public SourceServiceDesk(Queue q, CEventList l, String n, double m) {
+    public SourceServiceDesk(Queue q, CEventList l,ProductAcceptor sink, String n, double m) {
         list = l;
         queue = q;
         name = n;
         meanArrTime = m;
+        this.sink = sink;
         // put first event in list for initialization
         list.add(this, 0, drawRandomPoisson(meanArrTime)); //target,type,time
     }
@@ -64,8 +66,16 @@ public class SourceServiceDesk implements CProcess {
         // give arrived product to queue
         Product p = new Product('T');
         p.stamp(tme, "Creation", name);
-        queue.giveProduct(p);
-        System.out.println("product to Queue =  " + queue.getNumber());
+
+        if ( queue.askLimit()){
+            queue.giveProduct(p);
+            System.out.println("product to Queue =  " + queue.getNumber());
+
+        }else{
+            sink.giveProduct(p);
+            System.out.println("the guy went to sink");
+        }
+
 
 
         // generate duration
