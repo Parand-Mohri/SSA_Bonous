@@ -41,7 +41,8 @@ public class CSVwriter {
         }
     }
 
-    public void exportQueueData(List<Double> queue1, List<Double> queue2, List<Double> queue3, List<Double> queue4, List<Double> queue5, List<Double> queue6, List<Double> queue7) {
+//    public void exportQueueData(List<Double> queue1, List<Double> queue2, List<Double> queue3, List<Double> queue4, List<Double> queue5, List<Double> queue6, List<Double> queue7) {
+    public void exportQueueData(List<Double> queue1, List<Double> queue2, List<Double> queue3) {
 
         try{
             BufferedWriter br = new BufferedWriter(new FileWriter("queueData.csv"));
@@ -49,19 +50,11 @@ public class CSVwriter {
 
             sb.append("Timestep");
             sb.append(",");
-            sb.append("Queue 1");
+            sb.append("QueueR");
             sb.append(",");
-            sb.append("Queue 2");
+            sb.append("QueueT");
             sb.append(",");
-            sb.append("Queue 3");
-            sb.append(",");
-            sb.append("Queue 4");
-            sb.append(",");
-            sb.append("Queue 5");
-            sb.append(",");
-            sb.append("Queue 6");
-            sb.append(",");
-            sb.append("Queue 7");
+            sb.append("QueueO");
             sb.append("\r\n");
 
             // Append strings from array
@@ -74,13 +67,6 @@ public class CSVwriter {
                 sb.append(",");
                 sb.append(queue3.get(i));
                 sb.append(",");
-                sb.append(queue4.get(i));
-                sb.append(",");
-                sb.append(queue5.get(i));
-                sb.append(",");
-                sb.append(queue6.get(i));
-                sb.append(",");
-                sb.append(queue7.get(i));
                 sb.append("\r\n");
             }
 

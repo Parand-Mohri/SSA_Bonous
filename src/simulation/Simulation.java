@@ -17,11 +17,6 @@ import java.util.List;
 
 public class Simulation {
 
-//    public CEventList list;
-//    public Queue queue;
-//    public SourceCashRegister source;
-//    public Sink sink;
-//    public CashRegister mach;
     List<Double> arrivalTimeReg;
     List<Double> machineTimeReg;
     List<Double> leavingTimeReg;
@@ -31,13 +26,9 @@ public class Simulation {
     List<Double> arrivalTimeO;
     List<Double> machineTimeO;
     List<Double> leavingTimeO;
-    List<Integer> ql1;
-    List<Integer> ql2;
-    List<Integer> ql3;
-    List<Integer> ql4;
-    List<Integer> ql5;
-    List<Integer> ql6;
-    List<Integer> ql7;
+    List<Integer> qR;
+    List<Integer> qT;
+    List<Integer> q;
     @Getter
     double arrivalTimeRegAVG;
     @Getter
@@ -57,19 +48,11 @@ public class Simulation {
     @Getter
     double leavingTimeOAVG;
     @Getter
-    double ql1AVG;
+    double qRAVG;
     @Getter
-    double ql2AVG;
+    double qTAVG;
     @Getter
-    double ql3AVG;
-    @Getter
-    double ql4AVG;
-    @Getter
-    double ql5AVG;
-    @Getter
-    double ql6AVG;
-    @Getter
-    double ql7AVG;
+    double qAVG;
 
 
     public Simulation() {
@@ -121,25 +104,20 @@ public class Simulation {
         machineTimeO = new ArrayList<>();
         leavingTimeO = new ArrayList<>();
 
-        ql1 = new ArrayList<>();
-        ql2 = new ArrayList<>();
-        ql3 = new ArrayList<>();
-        ql4 = new ArrayList<>();
-        ql5 = new ArrayList<>();
-        ql6 = new ArrayList<>();
-        ql7 = new ArrayList<>();
+        qR = new ArrayList<>();
+        qT = new ArrayList<>();
+        q = new ArrayList<>();
         List<List<Integer>> queueLength = s1.getQueueLength();
         for (List li : queueLength) {
-            ql1.add((Integer) li.get(0));
-            ql2.add((Integer) li.get(1));
-            ql3.add((Integer) li.get(2));
-            ql4.add((Integer) li.get(3));
-            ql5.add((Integer) li.get(4));
-            ql6.add((Integer) li.get(5));
-            ql7.add((Integer) li.get(6));
+            q.addAll(li);
+            qR.add((Integer) li.get(0));
+            qR.add((Integer) li.get(1));
+            qR.add((Integer) li.get(2));
+            qR.add((Integer) li.get(3));
+            qR.add((Integer) li.get(4));
+            qR.add((Integer) li.get(5));
+            qT.add((Integer) li.get(6));
         }
-//        System.out.println(queueLength.size());
-
 
         for (Machine m : machines) {
             for (Product p : m.getPeople()) {
@@ -169,21 +147,10 @@ public class Simulation {
         arrivalTimeTAVG = calMeandouble(arrivalTimeT);
         machineTimeTAVG = calMeandouble(machineTimeT);
 
-        ql1AVG = calMeanint(ql1);
-        ql2AVG = calMeanint(ql2);
-        ql3AVG = calMeanint(ql3);
-        ql4AVG = calMeanint(ql4);
-        ql5AVG = calMeanint(ql5);
-        ql6AVG = calMeanint(ql6);
-        ql7AVG = calMeanint(ql7);
+        qRAVG = calMeanint(qR);
+        qTAVG = calMeanint(qT);
+        qAVG = calMeanint(q);
 
-
-//        System.out.println(ql1);
-//        System.out.println("machine times:" + machineTimeReg);
-//        System.out.println("leaving times:" + leavingTimeReg);
-//        System.out.println("arival times:" + arrivalTimeT.size());
-//        System.out.println("machine times:" + machineTimeT);
-//        System.out.println("leaving times:" + leavingTimeT);
     }
 
     public double calMeandouble(List<Double> l) {
