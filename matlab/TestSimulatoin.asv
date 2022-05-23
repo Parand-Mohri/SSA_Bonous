@@ -13,6 +13,10 @@ machineTimeO = overall.ArrivalsAtMachine;
 
 n = 101;
 
+%%given that we performed 101 simulations and then we recorded the each of
+%%the averages of teh arrivals, at machine and departure we can say that
+%%we have 100 degrees of freedom, and we have 0.95 as significance level,
+%%so looking it up in the t-test student score test (its the 
 delayR =  machineTimeReg - arrivalTimeReg;
 [mR, CIR] = CIplot(delayR,n, 1.066, "delay regular customer");
 
